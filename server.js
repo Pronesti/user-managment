@@ -9,9 +9,11 @@ const api = require('./routes/api/');
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useUnifiedTopology: true
   })
   .catch(err => console.log(err));
+
 app.use(express.json());
 app.use('/api', api);
 

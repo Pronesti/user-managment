@@ -9,4 +9,4 @@ router.post('/', function(req, res) {
   res.send('POST request to the homepage');
 });
 
-module.expors = router;
+module.exports = router;
