@@ -4,7 +4,7 @@ import {Typography} from 'antd'
 export default function Settings() {
     return (
         <React.Fragment>
-           <Typography level={1}>Settings</Typography>
+           <Typography.Title level={1}>Settings</Typography.Title>
         </React.Fragment>
     )
 }

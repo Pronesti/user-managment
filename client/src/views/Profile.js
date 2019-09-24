@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography, Progress, Card, List, Avatar, Divider } from 'antd'
 
-export default function Profile({user}) {
+export default function Profile({user = {name: 'DiegoDieh', email:'dieh.diego@gmail.com', experience: 123, age: Date.now(), registerDate: Date.now(), phone: '+5491135418548' }}) {
 
     const calculateLevel = experience => Math.floor(experience/50);
     const percentToNextLevel = experience => ((experience/50) - calculateLevel(experience))*100;
