@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import locale from 'antd/es/date-picker/locale/es_ES';
+import firebase from 'firebase';
 import {
   Form,
   Input,
@@ -27,9 +28,16 @@ class Register extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        firebase.auth().createUserWithEmailAndPassword(values.email, values.password).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ...
+        });
       }
     });
   };
