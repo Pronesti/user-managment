@@ -10,10 +10,11 @@ class Login extends React.Component {
           if (!err) {
             firebase.auth().signInWithEmailAndPassword(values.email, values.password).catch(function(error) {
               // Handle Errors here.
-              var errorCode = error.code;
-              var errorMessage = error.message;
+          console.log(error.code, 'error code');
+          console.log(error.message, 'error message');
               // ...
-            });
+              
+            }).then(userCred => console.log(userCred.user));
             console.log('Received values of form: ', values);
           }
         });

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 export default function Protection(props) {
-    const [hasVerifiedToken, setHasverifiedToken] = useState(false)
+    const [hasVerifiedToken, setHasverifiedToken] = useState(true)
     const [token, getToken] = useState()
     useEffect(()=> {
         if (localStorage.getItem('token') !== null){

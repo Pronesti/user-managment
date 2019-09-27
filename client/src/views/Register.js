@@ -34,8 +34,8 @@ class Register extends React.Component {
         console.log('Received values of form: ', values);
         firebase.auth().createUserWithEmailAndPassword(values.email, values.password).catch(function(error) {
           // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
+          console.log(error.code, 'error code');
+          console.log(error.message, 'error message');
           // ...
         });
       }

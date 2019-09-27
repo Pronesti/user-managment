@@ -2,12 +2,13 @@ import React, {useState} from 'react'
 import {Menu, Layout, Icon} from 'antd'
 import {Link} from 'react-router-dom'
 import AvatarWithLevel from './AvatarWithLevel';
+import {useSelector} from 'react-redux'
 const {Sider} = Layout;
 const { SubMenu } = Menu;
 
-
 export default function Sidebar() {
     const [collapsed, setCollapsed] = useState(false);
+    const user = useSelector(state => state.userReducer.user)
 
     const onCollapse = () => {
       setCollapsed(!collapsed);
@@ -18,12 +19,14 @@ export default function Sidebar() {
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className='logo' />
           <Menu theme='dark' defaultSelectedKeys={['1']} mode='inline'>
+          <Menu.Item key={0} style={{height: '100%'}}>
           <Link to="/profile">
             <AvatarWithLevel
-              level={2}
-              user={{ name: 'Diego', color: 'Blue' }}
+              level={user.level}
+              user={user}
             />
             </Link>
+          </Menu.Item>
             <Menu.Item key='1'>
             <Link to="/">
               <Icon type='home' style={IconSize} />

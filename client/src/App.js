@@ -22,25 +22,31 @@ const { Content } = Layout;
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
-  firebase.auth().onAuthStateChanged(authUser => {
-    if(authUser) {
-      return firebase.auth.currentUser.getIdToken()
-        .then(idToken => {
-          axios.defaults.headers.common['Authorization'] = idToken;
-          // Any extra code
-        }).catch();
-    }
-  });
+  const update = () => {
+    firebase.auth().onAuthStateChanged(authUser => {
+      console.log(authUser, 'authUser function')
+      if(authUser) {
+        return firebase.auth().currentUser.getIdToken()
+          .then(idToken => {
+            axios.defaults.headers.common['Authorization'] = idToken;
+            console.log(idToken, "IdToken update function")
+            // Any extra code
+          }).catch();
+      }
+    });
+  }
 
 function App() {
  
   return (
     <div className='App'>
+    {update()}
       <BrowserRouter>
         <Layout style={{ minHeight: '100vh' }}>
           <Sidebar />
           <Layout>
             <Content style={{ margin: '0' }}>
+              <button onClick={()=> axios.post('/',)}>GO</button>
               <Routes />
             </Content>
           </Layout>
