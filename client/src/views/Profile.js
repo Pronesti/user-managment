@@ -1,11 +1,14 @@
 import React from 'react'
 import { Typography, Progress, Card, List, Avatar, Divider } from 'antd'
+import {useSelector} from 'react-redux'
+import moment from 'moment'
 
-export default function Profile({user = {name: 'DiegoDieh', email:'dieh.diego@gmail.com', experience: 123, age: Date.now(), registerDate: Date.now(), phone: '+5491135418548' }}) {
 
+export default function Profile() {
+//{user = {name: 'DiegoDieh', email:'dieh.diego@gmail.com', experience: 123, age: Date.now(), registerDate: Date.now(), phone: '+5491135418548' }}
     const calculateLevel = experience => Math.floor(experience/50);
     const percentToNextLevel = experience => ((experience/50) - calculateLevel(experience))*100;
-
+    const user = useSelector(state => state.user);
     const data = [
         {
           title: 'User Name',
@@ -20,7 +23,7 @@ export default function Profile({user = {name: 'DiegoDieh', email:'dieh.diego@gm
         {
           title: 'Birthday',
           icon: 'calendar',
-          info: user.age
+          info: moment(user.age).format('D/MM/YYYY')
         },
         {
           title: 'Phone',
