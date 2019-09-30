@@ -3,12 +3,14 @@ import { Form, Icon, Input, Button, Checkbox, Alert } from 'antd';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom'
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error_msg: ''
+      error_msg: '',
+      redirectProfile: false
     };
   }
 
@@ -32,8 +34,6 @@ class Login extends React.Component {
                   type: 'SET_USER',
                   payload: res.data.user
                 });
-                let history = that.props.history;
-                history.push('/profile');
               })
               .catch(err => console.log(err));
 
@@ -68,6 +68,7 @@ class Login extends React.Component {
   };
   render() {
     const { getFieldDecorator } = this.props.form;
+    if (this.state.redirectProfile) return <Redirect to="/profile" />
     return (
       <React.Fragment>
         {this.state.error_msg && (

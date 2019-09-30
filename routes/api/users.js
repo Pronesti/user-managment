@@ -94,7 +94,9 @@ router.post('/login', async (req, res, next) => {
   const token = req.headers.authorization;
 
   // idToken comes from the client app
-  admin
+  if(token){
+    console.log(token)
+    admin
     .auth()
     .verifyIdToken(token)
     .then(function(decodedToken) {
@@ -103,10 +105,11 @@ router.post('/login', async (req, res, next) => {
     })
     .catch(function(error) {
       // Handle error
-      console.log(error);
+      console.log(error, 'login');
       res.status(401).send(error);
       next();
     });
+  }
 
   try {
     const user = await User.findOne({ email }).then(user => user);
@@ -121,6 +124,8 @@ router.post('/check_login', (req, res) => {
   const { token } = req.body;
   console.log(req.body, 'body');
   // idToken comes from the client app
+  if(token){
+    console.log(token)
   admin
     .auth()
     .verifyIdToken(token)
@@ -130,10 +135,10 @@ router.post('/check_login', (req, res) => {
     })
     .catch(function(error) {
       // Handle error
-      console.log(error);
+      console.log(error, 'checkLogin');
       res.status(401).send(error);
       next();
-    });
+    });}
 });
 
 module.exports = router;

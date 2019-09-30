@@ -17,21 +17,28 @@ export default function Sidebar() {
   
     const IconSize = { fontSize: 24 };
 
-    const avatar = (<Link to="/profile">
-    <AvatarWithLevel
-      level={user.level}
-      user={user}
-    />
-    </Link>);
-
-    const logo = (<h1 style={{textAlign: "center", color: "white", fontSize: 24}}>Arcade</h1>)
+    const topSidebar = () => {
+      if (auth){
+        return(<Link to="/profile">
+        <AvatarWithLevel
+          level={user.level}
+          user={user}
+        />
+        </Link>)
+      }else{
+        return (<Link to="/login">
+        <Icon type='home' style={IconSize} />
+        <span>Login</span>
+        </Link>)
+      }
+    }
 
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className='logo' />
           <Menu theme='dark' defaultSelectedKeys={['1']} mode='inline'>
           <Menu.Item key={0} style={{height: '100%'}}>
-          {auth ? avatar : logo}
+          {topSidebar()}
           </Menu.Item>
             <Menu.Item key='1'>
             <Link to="/">
