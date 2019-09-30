@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config();
 
 const users = require('./routes/api/users');
 const api = require('./routes/api/');
+const score = require('./routes/api/score');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -59,6 +60,7 @@ app.use(express.json());
 //app.use(verifyToken);
 app.use('/api', api);
 app.use('/user', users);
+app.use('/score', score);
 
 
 

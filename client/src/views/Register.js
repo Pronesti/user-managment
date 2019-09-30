@@ -1,7 +1,6 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import locale from 'antd/es/date-picker/locale/es_ES';
-import firebase from 'firebase';
 import debounce from 'lodash/debounce';
 import {
   Form,

@@ -8,12 +8,12 @@ export default function Profile() {
 //{user = {name: 'DiegoDieh', email:'dieh.diego@gmail.com', experience: 123, age: Date.now(), registerDate: Date.now(), phone: '+5491135418548' }}
     const calculateLevel = experience => Math.floor(experience/50);
     const percentToNextLevel = experience => ((experience/50) - calculateLevel(experience))*100;
-    const user = useSelector(state => state.user);
+    const user = useSelector(state => state.user.user);
     const data = [
         {
           title: 'User Name',
           icon: "user",
-          info: user.name
+          info: user.nickname
         },
         {
           title: 'Email',

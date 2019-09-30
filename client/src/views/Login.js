@@ -2,11 +2,16 @@ import React from 'react';
 import { Form, Icon, Input, Button, Checkbox, Alert } from 'antd';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class Login extends React.Component {
-  state = {
-    error_msg: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      error_msg: ''
+    };
+  }
+
   handleSubmit = e => {
     const that = this;
     e.preventDefault();
@@ -16,17 +21,40 @@ class Login extends React.Component {
           .auth()
           .signInWithEmailAndPassword(values.email, values.password)
           .then(userCred => {
-            that.props.dispatch({ type: 'AUTHENTICATION', payload: true });
-            that.props.dispatch({
-              type: 'SET_USER',
-              payload: userCred.user.uid
-            });
+            axios
+              .post('/user/login', {
+                email: userCred.user.email
+              })
+              .then(res => {
+                localStorage.setItem('auth', true);
+                that.props.dispatch({ type: 'AUTHENTICATION', payload: true });
+                that.props.dispatch({
+                  type: 'SET_USER',
+                  payload: res.data.user
+                });
+                let history = that.props.history;
+                history.push('/profile');
+              })
+              .catch(err => console.log(err));
+
+            firebase
+              .auth()
+              .currentUser.getIdToken(/* forceRefresh */ true)
+              .then(function(idToken) {
+                // Send token to your backend via HTTPS
+                // ...
+                // axios.defaults.headers.common['Authorization'] = idToken;
+              })
+              .catch(function(error) {
+                // Handle error
+              });
           })
           .catch(function(error) {
             // Handle Errors here.
             console.log(error.code, 'error code');
             console.log(error.message, 'error message');
             // ...
+            localStorage.setItem('auth', false);
             that.props.dispatch({ type: 'AUTHENTICATION', payload: false });
             that.setState({ error_msg: error.message });
             that.props.dispatch({
@@ -42,7 +70,15 @@ class Login extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <React.Fragment>
-        {this.state.error_msg && <Alert message={this.state.error_msg} banner closable type="error" showIcon />}
+        {this.state.error_msg && (
+          <Alert
+            message={this.state.error_msg}
+            banner
+            closable
+            type='error'
+            showIcon
+          />
+        )}
         <Form onSubmit={this.handleSubmit} className='login-form centered-div'>
           <Form.Item>
             {getFieldDecorator('email', {
@@ -53,6 +89,7 @@ class Login extends React.Component {
                   <Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />
                 }
                 placeholder='email'
+                autoComplete='email'
               />
             )}
           </Form.Item>
@@ -68,6 +105,7 @@ class Login extends React.Component {
                 }
                 type='password'
                 placeholder='Password'
+                autoComplete='current-password'
               />
             )}
           </Form.Item>
@@ -85,7 +123,7 @@ class Login extends React.Component {
               className='login-form-button'>
               Log in
             </Button>
-            Or <a href='/'>register now!</a>
+            Or <a href='/register'>register now!</a>
           </Form.Item>
         </Form>
       </React.Fragment>

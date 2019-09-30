@@ -24,12 +24,13 @@ const { Content } = Layout;
 
   const update = () => {
     firebase.auth().onAuthStateChanged(authUser => {
-      console.log(authUser, 'authUser function')
+     // console.log(authUser, 'authUser function')
       if(authUser) {
         return firebase.auth().currentUser.getIdToken()
           .then(idToken => {
             axios.defaults.headers.common['Authorization'] = idToken;
-            console.log(idToken, "IdToken update function")
+            localStorage.setItem('token', idToken);
+            console.log(axios.defaults.headers.common['Authorization'], "IdToken update function")
             // Any extra code
           }).catch();
       }
@@ -46,7 +47,8 @@ function App() {
           <Sidebar />
           <Layout>
             <Content style={{ margin: '0' }}>
-              <button onClick={()=> axios.post('/',)}>TEST</button>
+              <button onClick={()=> axios.post('/user/test',{text: 'i am testing'})}>TEST</button>
+              <button onClick={()=> localStorage.clear()}>LOGOUT</button>
               <Routes />
             </Content>
           </Layout>

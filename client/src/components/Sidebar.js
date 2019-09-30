@@ -8,24 +8,30 @@ const { SubMenu } = Menu;
 
 export default function Sidebar() {
     const [collapsed, setCollapsed] = useState(false);
-    const user = useSelector(state => state.user)
+    const user = useSelector(state => state.user.user);
+    const auth = useSelector(state => state.auth.isAuthenticated)
 
     const onCollapse = () => {
       setCollapsed(!collapsed);
     };
   
     const IconSize = { fontSize: 24 };
+
+    const avatar = (<Link to="/profile">
+    <AvatarWithLevel
+      level={user.level}
+      user={user}
+    />
+    </Link>);
+
+    const logo = (<h1 style={{textAlign: "center", color: "white", fontSize: 24}}>Arcade</h1>)
+
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
           <div className='logo' />
           <Menu theme='dark' defaultSelectedKeys={['1']} mode='inline'>
           <Menu.Item key={0} style={{height: '100%'}}>
-          <Link to="/profile">
-            <AvatarWithLevel
-              level={user.level}
-              user={user}
-            />
-            </Link>
+          {auth ? avatar : logo}
           </Menu.Item>
             <Menu.Item key='1'>
             <Link to="/">

@@ -21,10 +21,6 @@ const UserSchema = new Schema({
     required: true,
     unique: true
   },
-  password: {
-    type: String,
-    required: true
-  },
   country: {
     type: String,
     required: true

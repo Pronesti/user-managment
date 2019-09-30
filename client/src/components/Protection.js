@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 export default function Protection(props) {
-    const [hasVerifiedToken, setHasverifiedToken] = useState(true)
-    const [token, getToken] = useState()
-    useEffect(()=> {
-        if (localStorage.getItem('token') !== null){
-    axios.get('/api/verifyToken',{
-        params: {
-            token
+  const checkLogin = async () => {
+    let security = false;
+    const idToken = localStorage.getItem('token');
+    await axios
+      .post('/user/check_login', {
+        token: idToken
+      })
+      .then(res => {
+        if (res.data.verified) {
+          security = true;
         }
+      });
+    return security;
+  };
+
+  if (
+    checkLogin().then(x => {
+      return x;
     })
-    .then(function(response){
-        console.log(response)
-    })
-    .catch(function(error){
-        console.log(error)
-    })
-    .finally(function(){
-        //executes always
-    })
-    }
-    }, [])
-    if (hasVerifiedToken) return <React.Fragment> {props.children} </React.Fragment>
-    return <React.Fragment></React.Fragment>
+  )
+    return <React.Fragment> {props.children}</React.Fragment>;
+  return <Redirect to='/login' />;
+  //return <React.Fragment><p>not logged</p> {console.log(checkLogin())}</React.Fragment>
 }
